@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Form Registrasi — Bersih</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root {
+      --card:#ffffff;
+      --radius:12px;
+      --shadow:0 20px 48px -10px rgba(15,23,42,.15);
+      --gradient:linear-gradient(135deg,#6f5efb,#3ec5ff);
+      --text:#1f2d56;
+      --muted:#6b7a99;
+      --header-bg:linear-gradient(135deg,#3ec5ff,#6f5efb);
+      font-family: "Inter", system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      background: linear-gradient(135deg,#6f5efb 0%,#3ec5ff 100%);
+      min-height:100vh;
+      padding:2rem 1rem;
+      color: var(--text);
+      display:flex;
+      flex-direction:column;
+    }
+    .layout{
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1.75rem;
+    }
+    @media (max-width:1100px){
+      .layout{grid-template-columns:1fr;}
+    }
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+    }
+    .card-header{
+      background: var(--header-bg);
+      padding:14px 20px;
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .card-header h2{
+      margin:0;
+      font-size:1.5rem;
+      line-height:1.1;
+    }
+    .card-header .subtitle{
+      font-size:0.85rem;
+      opacity:.9;
+    }
+    .card-body{
+      padding:1.75rem 1.75rem 2rem;
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+    form{
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+    .grid{
+      display:grid;
+      gap:1rem;
+    }
+    .two{
+      grid-template-columns:1fr 1fr;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+    }
+    label{
+      font-size:0.85rem;
+      font-weight:600;
+      margin-bottom:6px;
+    }
+    input[type=text],
+    input[type=email],
+    input[type=password],
+    input[type=date]{
+      padding:12px 16px;
+      border-radius:8px;
+      border:1px solid #d8dee9;
+      font-size:1rem;
+      outline:none;
+      transition: all .25s;
+      background:#f9fbff;
+    }
+    input:focus{
+      outline:2px solid rgba(255,255,255,.3);
+      border-color:#6f5efb;
+      background:#fff;
+    }
+    .radio-group{
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.75rem;
+    }
+    .radio-wrapper{
+      background:#f3f6ff;
+      padding:8px 14px;
+      border-radius:8px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:0.9rem;
+      cursor:pointer;
+      border:2px solid transparent;
+      transition: all .25s;
+      user-select:none;
+    }
+    .radio-wrapper input{
+      accent-color:#6f5efb;
+      margin:0;
+      cursor:pointer;
+    }
+    .radio-wrapper.selected{
+      background:rgba(255,255,255,.2);
+      border-color:#fff;
+    }
+    .checkbox-wrap{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:0.9rem;
+    }
+    .checkbox-wrap input{
+      accent-color:#3ec5ff;
+      margin-top:3px;
+    }
+    .note{
+      font-size:0.65rem;
+      color:#526d9c;
+    }
+    .error{
+      margin-top:4px;
+      font-size:0.65rem;
+      color:#ffb3c1;
+      display:block;
+    }
+    .inline-between{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    button{
+      background: var(--gradient);
+      border:none;
+      padding:12px 20px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:1rem;
+      font-weight:600;
+      color:#fff;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      transition:filter .25s;
+      box-shadow:0 12px 32px -4px rgba(111,94,251,.45);
+    }
+    button:hover{ filter:brightness(1.05); }
+    button:active{ transform:scale(.98); }
+    .table-wrapper{
+      overflow:auto;
+      margin-top:4px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.85rem;
+      min-width:500px;
+    }
+    thead{
+      background:#f0f4fd;
+    }
+    th, td{
+      padding:14px 12px;
+      text-align:left;
+      border-bottom:1px solid #e3e9f4;
+    }
+    tbody tr:nth-child(odd){
+      background:#fbfcff;
+    }
+    tbody tr:hover{
+      background:rgba(111,94,251,.08);
+    }
+    .required{
+      color:#ffd6e8;
+      margin-left:2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Form Card -->
+    <div class="card" aria-label="Form registrasi">
+      <div class="card-header">
+        <h2>Daftar Akun</h2>
+        <div class="subtitle">Isi semua kolom wajib untuk mendaftar.</div>
+      </div>
+      <div class="card-body">
+        <form id="registration" novalidate>
+          <div class="grid two">
+            <div class="field">
+              <label for="name">Nama <span class="required">*</span></label>
+              <input type="text" id="name" name="name" required placeholder="Nama lengkap">
+              <span class="error" data-for="name"></span>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="required">*</span></label>
+              <input type="email" id="email" name="email" required placeholder="contoh@domain.com">
+              <span class="error" data-for="email"></span>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="field">
+              <label for="dob">Tanggal Lahir <span class="required">*</span></label>
+              <input type="date" id="dob" name="dob" required max="">
+              <span class="error" data-for="dob"></span>
+            </div>
+            <div class="field">
+              <label>Jenis Kelamin <span class="required">*</span></label>
+              <div class="radio-group">
+                <label class="radio-wrapper"><input type="radio" name="gender" value="Laki-laki" required> Laki-laki</label>
+                <label class="radio-wrapper"><input type="radio" name="gender" value="Perempuan"> Perempuan</label>
+                <label class="radio-wrapper"><input type="radio" name="gender" value="Lainnya"> Lainnya</label>
+              </div>
+              <span class="error" data-for="gender"></span>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="field">
+              <label for="password">Password <span class="required">*</span></label>
+              <input type="password" id="password" name="password" required minlength="6" placeholder="Minimal 6 karakter">
+              <span class="error" data-for="password"></span>
+            </div>
+            <div class="field">
+              <label for="confirmPassword">Konfirmasi Password <span class="required">*</span></label>
+              <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Ketik ulang password">
+              <span class="error" data-for="confirmPassword"></span>
+            </div>
+          </div>
+          <div class="field">
+            <div class="checkbox-wrap">
+              <input type="checkbox" id="terms" name="terms" required>
+              <label for="terms">Saya menyetujui <strong>syarat dan ketentuan</strong> <span class="required">*</span></label>
+            </div>
+            <span class="error" data-for="terms"></span>
+          </div>
+          <div class="inline-between">
+            <div class="note">(*) wajib diisi.</div>
+            <button type="submit">Daftar Sekarang</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tabel Card -->
+    <div class="card" aria-label="Data registrasi">
+      <div class="card-header">
+        <h2>Pengguna Terdaftar</h2>
+        <div class="subtitle">Data yang valid dimasukkan di bawah.</div>
+      </div>
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table id="usersTable" aria-label="Tabel pengguna">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Tanggal Lahir</th>
+                <th>Jenis Kelamin</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('dob').max = new Date().toISOString().split('T')[0];
+
+    const form = document.getElementById('registration');
+    const usersTableBody = document.querySelector('#usersTable tbody');
+    const errors = {
+      name: document.querySelector('.error[data-for="name"]'),
+      email: document.querySelector('.error[data-for="email"]'),
+      dob: document.querySelector('.error[data-for="dob"]'),
+      gender: document.querySelector('.error[data-for="gender"]'),
+      password: document.querySelector('.error[data-for="password"]'),
+      confirmPassword: document.querySelector('.error[data-for="confirmPassword"]'),
+      terms: document.querySelector('.error[data-for="terms"]'),
+    };
+
+    function clearAllErrors() {
+      Object.values(errors).forEach(e => e.textContent = '');
+      document.querySelectorAll('.radio-wrapper').forEach(r => r.classList.remove('selected'));
+    }
+
+    function validateEmailFormat(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    document.querySelectorAll('.radio-wrapper input').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.querySelectorAll('.radio-wrapper').forEach(w => w.classList.remove('selected'));
+        if (radio.checked) radio.closest('.radio-wrapper')?.classList.add('selected');
+      });
+    });
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      clearAllErrors();
+      let valid = true;
+
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const dob = form.dob.value;
+      const genderEl = document.querySelector('input[name="gender"]:checked');
+      const gender = genderEl ? genderEl.value : '';
+      const password = form.password.value;
+      const confirmPassword = form.confirmPassword.value;
+      const terms = form.terms.checked;
+
+      if (!name) { errors.name.textContent = 'Nama wajib diisi.'; valid=false; }
+      if (!email) { errors.email.textContent = 'Email wajib diisi.'; valid=false; }
+      else if (!validateEmailFormat(email)) { errors.email.textContent = 'Format email tidak valid.'; valid=false; }
+      if (!dob) { errors.dob.textContent = 'Tanggal lahir wajib diisi.'; valid=false; }
+      if (!gender) { errors.gender.textContent = 'Pilih jenis kelamin.'; valid=false; }
+      if (!password) { errors.password.textContent = 'Password wajib diisi.'; valid=false; }
+      else if (password.length < 6) { errors.password.textContent = 'Minimal 6 karakter.'; valid=false; }
+      if (!confirmPassword) { errors.confirmPassword.textContent = 'Konfirmasi password wajib diisi.'; valid=false; }
+      else if (password !== confirmPassword) { errors.confirmPassword.textContent = 'Password tidak cocok.'; valid=false; }
+      if (!terms) { errors.terms.textContent = 'Harus menyetujui syarat dan ketentuan.'; valid=false; }
+
+      if (!valid) return;
+
+      const tr = document.createElement('tr');
+      const dt = new Date(dob);
+      let formattedDob = dob;
+      if (!isNaN(dt)) {
+        const d = String(dt.getDate()).padStart(2,'0');
+        const m = String(dt.getMonth()+1).padStart(2,'0');
+        const y = dt.getFullYear();
+        formattedDob = `${d}-${m}-${y}`;
+      }
+      tr.innerHTML = `<td>${name}</td><td>${email}</td><td>${formattedDob}</td><td>${gender}</td>`;
+      usersTableBody.appendChild(tr);
+
+      form.reset();
+      document.querySelectorAll('.radio-wrapper').forEach(w => w.classList.remove('selected'));
+    });
+  </script>
+</body>
+</html>
